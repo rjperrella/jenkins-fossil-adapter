@@ -1,0 +1,7 @@
+<!--
+  This view is used to render the installed plugins page.
+-->
+<div>
+  This plug-in integrates <a href="http://www.fossil-scm.org">Fossil</a> distributed version control system with Jenkins.
+  Right now, this plug-in only supports building from the trunk.
+</div>

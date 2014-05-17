@@ -1,0 +1,57 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+ <f:section title="Fossil Project Config">
+    <!-- Form for Configuring a given Project -->
+    <!-- @see global.jelly for configuration of the Fossil SCM plugin as a whole. -->
+    <!--
+    
+    Consider: 
+    fossil.X  represents a way of accessing a "property" of the FossilScm object.
+    descriptor.X represents a way of accessing a "property" of the FossilScmDescriptorImpl object (singleton)
+    -->
+    
+    <f:entry title="Server" field="server">
+        <f:textbox name="fossil.server" value=""/>   <!-- was descriptor.server -->
+        This is the server DNS name for the Fossil server which has the repository you wish to use for builds. It will be used to construct a URL.
+    </f:entry>
+
+    <f:entry title="Port" field="port">
+        <f:textbox name="fossil.port" value="" default="80"/>  
+        This is the Fossil server's TCP/IP port.  This should be numeric only.
+    </f:entry>
+
+    <f:entry title="Server Path" field="serverpath">
+        <f:textbox name="fossil.serverpath" value="" default=""/>  
+        This is the remaining URI path to the Fossil server (the part that would appear after server and port.)
+    </f:entry>
+
+    <f:entry title="Fossil repository" field="repository">
+        <f:textbox name="fossil.repository" value="repo" checkUrl="'${rootURL}/Fossil/checkRepository?value='+escape(this.value)" />
+        The fossil local repository is the base-name of the repository.  Since a remote Fossil repository referenced by a URL has no name, you can choose
+        whatever name you'd like for this local repository name.
+    </f:entry>
+    <f:entry title="Fossil Repository Username" field="username">
+      <f:textbox name="fossil.username" value="jenkins" default="jenkins" checkUrl="'${rootURL}/Fossil/checkUsername?value='+escape(this.value)"/>
+      This must be an id that has read access to the repository.  It is suggested that you create a jenkins id for this purpose.
+    </f:entry>
+    <f:entry title="Fossil Repository Password" field="password" default="" checkUrl="'${rootURL}/Fossil/checkPassword?value='+escape(this.value)">
+      <f:password name="fossil.password" value="" />
+      Remember - Fossil does not allow empty passwords.
+    </f:entry>
+
+    <f:advanced>
+        <f:entry title="Secure Communications">
+            <f:checkbox name="fossil.https" checked="" />
+                If checked, Jenkins will use https protocol instead of http to communicate with the Fossil server, otherwise http will be used.
+        </f:entry>
+        <!-- Shown only if the user clicks on the "advanced" toggle -->
+        <f:entry title="Clean copy">
+            <f:checkbox name="fossil.clean" checked=""/>
+                If checked, Jenkins will delete the directory and all its contents before downloading the files
+                from the repository for every build.
+        </f:entry>
+
+    </f:advanced>
+    </f:section>
+</j:jelly>
+
